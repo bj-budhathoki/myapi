@@ -16,7 +16,7 @@ mongoose.connection.on("error", err =>
 );
 //routes
 const postRoutes = require("./routes/post");
-
+const authRoutes = require("./routes/auth");
 //middleware
 app.use(morgan("dev"));
 // parse application/x-www-form-urlencoded
@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use(expressValidator());
-app.use("/", postRoutes);
+app.use("/api/v1", postRoutes);
+app.use("/api/v1", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`server running on http://locahost${PORT}`));

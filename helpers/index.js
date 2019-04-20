@@ -18,6 +18,21 @@ const createPostValidator = (req, res, next) => {
   }
   next();
 };
+const signupValidator = (req, res, next) => {
+  req.check("name", "name is required").notEmpty();
+  req.check("email", "email is required").notEmpty();
+  req.check("email", "invalid email").isEmail();
+  req.check("password", "password is required").notEmpty();
+
+  let errors = req.validationErrors();
+  if (errors) {
+    firstError = errors.map(error => error.msg)[0];
+    return res.status(400).json({ error: firstError });
+  }
+  next();
+};
+
 module.exports = {
-  createPostValidator
+  createPostValidator,
+  signupValidator
 };
