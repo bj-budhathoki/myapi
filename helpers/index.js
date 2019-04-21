@@ -20,9 +20,21 @@ const createPostValidator = (req, res, next) => {
 };
 const signupValidator = (req, res, next) => {
   req.check("name", "name is required").notEmpty();
-  req.check("email", "email is required").notEmpty();
-  req.check("email", "invalid email").isEmail();
+  req
+    .check("email", "Email must be between 3 to 32 character")
+    .matches()
+    .withMessage("email must contain @")
+    .isLength({
+      min: 4,
+      mxa: 200
+    });
   req.check("password", "password is required").notEmpty();
+  req
+    .check("password")
+    .isLength({ mix: 6 })
+    .withMessage("Password must containa at least 6 characters")
+    .matches(/\d/)
+    .withMessage("Must contain a number");
 
   let errors = req.validationErrors();
   if (errors) {
